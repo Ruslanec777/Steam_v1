@@ -71,6 +71,8 @@ namespace ClassesProject
 
         static decimal tempDecimal;
 
+        static int newProp;
+
         static int tempInt;
 
         static Game[] allGames = new Game[0];
@@ -92,26 +94,27 @@ namespace ClassesProject
 
         private static void Autorization()
         {
-            PrintAutorizationMenu();
+            int selectedItem = SelectMenuItem(2, "Есть ли у вас аккаунт ?\n" +
+                                                 "1.ДА        2.НЕТ");
 
         }
 
-        private static int PrintAutorizationMenu()
+        private static int SelectMenuItem(int numberOfMenuItems, string menuText)
         {
             int menuItem = 0;
             do
             {
                 Console.Clear();
-                Console.WriteLine("Есть ли у вас аккаунт ?\n" +
-                    "1.ДА        2.НЕТ");
+                Console.WriteLine(menuText);
+
                 int.TryParse(ReadLine(), out menuItem);
-                if (menuItem < 1 || menuItem > 3)
+                if (menuItem < 1 || menuItem > numberOfMenuItems)
                 {
                     Console.WriteLine("Неправильный ввод, введите цифру 1 или 2.");
                     Thread.Sleep(1000);
                 }
 
-            } while (menuItem < 1 || menuItem > 3);
+            } while (menuItem < 1 || menuItem > numberOfMenuItems);
 
             return menuItem;
         }
