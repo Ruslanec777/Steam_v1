@@ -65,7 +65,7 @@ namespace ClassesProject
     class Program
     {
 
-        static Menu selectedMenuItem;
+        static Menu selectedMenuItem; // koment
 
         static string tempStr = string.Empty;
 
