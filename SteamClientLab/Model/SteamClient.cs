@@ -37,9 +37,9 @@ namespace SteamClientLab.Model
                 }
 
             } while (steamClient.CurrentAccaunt == null);
+
+
         }
-
-
 
         private ReturnedData Autorization()
         {
@@ -76,9 +76,7 @@ namespace SteamClientLab.Model
 
         private ReturnedData logining()
         {
-
             string login;
-
             string password;
 
             ReturnedData returnedDataLogin = CallbackConsoleMenu("Вход в Аккаунт", "Введите логин");
@@ -104,10 +102,11 @@ namespace SteamClientLab.Model
             if (TempAccaunt != null && TempAccaunt.Password == password)
             {
                 CurrentAccaunt = TempAccaunt;
+                CurrentAccaunt.IsAuthorized = true;
 
                 Console.WriteLine($"Вы вошли в аакант:");
                 Console.WriteLine($"{CurrentAccaunt.GetAccauntData()}");
-                Thread.Sleep(2000);
+                Thread.Sleep(6000);
 
                 return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.CorrectCompletion };
             }
@@ -133,7 +132,6 @@ namespace SteamClientLab.Model
 
         private ReturnedData AddNewAccaunt(ref Account[] accounts)
         {
-            Account[] tempAccaunts = new Account[accounts.Length + 1];
 
             Account tempAccaunt = RegistrationNewAccaunt();
 
@@ -142,12 +140,14 @@ namespace SteamClientLab.Model
                 return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.ExitBeforeCompletion };
             }
 
-            for (int i = 0; i < accounts.Length; i++)
+            Account[] tempAccaunts = new Account[accounts.Length + 1];
+
+            for (int i = 0; i < tempAccaunts.Length; i++)
             {
                 //tempAccaunts[i] = accounts.Length - 1 == i ? tempAccaunt : accounts[i];
-                if (accounts.Length - 1 == i)
+                if (tempAccaunts.Length - 1 == i)
                 {
-                    tempAccaunts[i] = accounts.Length - 1 == i ? tempAccaunt : accounts[i];
+                    tempAccaunts[i] = tempAccaunt;
                 }
 
             }
@@ -189,14 +189,14 @@ namespace SteamClientLab.Model
 
             do
             {
-                isResponseValid = int.TryParse(CallbackConsoleMenu("Регистрация Аккаунта", "Выберите пол" ).ReturnedString, out selectedMenuItem)
+                isResponseValid = int.TryParse(CallbackConsoleMenu("Регистрация Аккаунта", "Выберите пол", MenuSexSelect.menuItems).ReturnedString, out selectedMenuItem)
                 && selectedMenuItem >= 0 && selectedMenuItem <= 1;
 
             } while (!isResponseValid);
 
             sex = (Sex)selectedMenuItem;
 
-            nicName = CallbackConsoleMenu("Регистрация Аккаунта", "Введите Ник для игры",MenuSexSelect.menuItems).ReturnedString;
+            nicName = CallbackConsoleMenu("Регистрация Аккаунта", "Введите Ник для игры").ReturnedString;
 
             do
             {
