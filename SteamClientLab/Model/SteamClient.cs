@@ -29,6 +29,8 @@ namespace SteamClientLab.Model
         {
             SteamClient steamClient = new SteamClient(externalMethod);
 
+            steamClient.AdminAccountInitializer(ref steamClient.accounts);
+            
             do
             {
                 if (steamClient.Autorization().ExecutionStatusCode == ExecutionStatusCode.ExitBeforeCompletion)
@@ -38,7 +40,10 @@ namespace SteamClientLab.Model
 
             } while (steamClient.CurrentAccaunt == null);
 
-
+            do
+            {
+                // дописать меню пользователя
+            } while (steamClient.CurrentAccaunt != null);
         }
 
         private ReturnedData Autorization()
@@ -72,6 +77,11 @@ namespace SteamClientLab.Model
                 default:
                     return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.EnteredIncorrectValue };
             }
+        }
+
+        private ReturnedData ActionIntoAccount()
+        {
+            return CallbackConsoleMenu($"Пользователь {CurrentAccaunt.NicName}", MenuUser.ActionForMenu, MenuUser.menuItems);
         }
 
         private ReturnedData logining()
@@ -111,7 +121,7 @@ namespace SteamClientLab.Model
                 return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.CorrectCompletion };
             }
 
-            Console.WriteLine($"Логин и/или пароль не верны");          
+            Console.WriteLine($"Логин и/или пароль не верны");
             Thread.Sleep(1000);
 
             return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.EnteredIncorrectValue };
@@ -134,6 +144,29 @@ namespace SteamClientLab.Model
         {
 
             Account tempAccaunt = RegistrationNewAccaunt();
+
+            if (tempAccaunt == null)
+            {
+                return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.ExitBeforeCompletion };
+            }
+
+            Account[] tempAccaunts = new Account[accounts.Length + 1];
+
+            for (int i = 0; i < tempAccaunts.Length; i++)
+            {
+                if (tempAccaunts.Length - 1 == i)
+                {
+                    tempAccaunts[i] = tempAccaunt;
+                }
+            }
+            accounts = tempAccaunts;
+            return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.CorrectCompletion };
+        }
+
+        private ReturnedData AddNewAccaunt(Account account, ref Account[] accounts)
+        {
+
+            Account tempAccaunt = account;
 
             if (tempAccaunt == null)
             {
@@ -216,7 +249,7 @@ namespace SteamClientLab.Model
 
             Account tempAccaunt = new Account(fio, sex, nicName, age, balance, login, password);
 
-            if (tempAccaunt!=null)
+            if (tempAccaunt != null)
             {
                 Console.WriteLine("Аккаунт создан");
                 Console.WriteLine($"{tempAccaunt.GetAccauntData()}");
@@ -224,7 +257,16 @@ namespace SteamClientLab.Model
                 Thread.Sleep(2000);
             }
 
-            return tempAccaunt ;
+            return tempAccaunt;
+        }
+
+        public ReturnedData AdminAccountInitializer(ref Account[] accounts)
+        {
+            Account tempAccaunt = new Account("Админ Админович Админовский", Sex.Man, "Admin", 100, 1000000, "admin", "1234");
+
+            AddNewAccaunt(tempAccaunt, ref accounts);
+
+            return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.CorrectCompletion };
         }
 
     }

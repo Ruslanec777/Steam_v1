@@ -108,6 +108,28 @@ namespace SteamClientLab.MenuPages
         static internal string[] menuItems = { "Мужчина", "Женщина" };
     }
 
+    class MenuUser
+    {
+        static readonly string titlMenu = $"Пользователь";
+
+        static internal readonly string ActionForMenu = "Выберите пункт меню";
+        static internal string HeaderOfMenu
+        {
+            get
+            {
+                return $"{titlMenu} \n" +
+                       $"\n" +
+                       $"{ActionForMenu}";
+            }
+        }
+        static internal string[] menuItems = { 
+            "Играть в игру",
+            "Список игр доступных для покупки" ,
+            "Управление счётом",
+            "Выйти из аккаунта" ,
+            "Выйти из Steam" };
+    }
+
 
 
 }
