@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameClasses.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,17 +28,33 @@ namespace GameClasses
 {
     public class Account
     {
+        public string Fio{ get; set; }
+        public Sex Sex { get; set; }
+        public string NicName{ get; set; }
+        public string Surname { get; set; }
+        public string Name { get; set; }
+        public string Patronymic { get; set; }
+        public int Age { get; set; }
         private static long AccauntCount
         { set; get; }
-
         public long Id { get; private set; }
-
         public decimal Balance { get; set; }
-
         public string Login { get; set; }
         public string Password { get; set; }
-
         public bool IsAuthorized { get; set; }
+
+        public Account(string fio, Sex sex, string nicName, int age, decimal balance, string login, string password)
+        {
+            Fio = fio;
+            Sex = sex;
+            NicName = nicName;
+            Age = age;
+            Balance = balance;
+            Login = login;
+            Password = password;
+
+            ParsingFio(Fio);
+        }
 
         public string AccauntData
         {
@@ -50,24 +67,27 @@ namespace GameClasses
 
         public Game[] Games { get; set; }
 
-        public Account(int id)
-        {
-            Id = id;
-        }
+        //public Account(int id)
+        //{
+        //    Id = id;
+        //}
 
-        public Account(int id, int money)
-            : this(id)
-        {
-            Balance = money;
-        }
+        //public Account(int id, int money)
+        //    : this(id)
+        //{
+        //    Balance = money;
+        //}
 
-        public Account(string login, string password)
-        {
-            Login = login;
-            Password = password;
-            Id = AccauntCount;
-            AccauntCount++;
-        }
+        //public Account(string login, string password)
+        //{
+        //    Login = login;
+        //    Password = password;
+        //    Id = AccauntCount;
+        //    AccauntCount++;
+        //}
+
+
+
 
         public void AddMoney(decimal money)
         {
@@ -89,6 +109,14 @@ namespace GameClasses
             }
         }
 
+        private void ParsingFio(string fio)
+        {
+            string[] tempFio = fio.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            Surname = tempFio[0];
+            Name = tempFio[1];
+            Patronymic = tempFio.Length > 2 ? tempFio[2] : "";
+        }
+
         public bool Authorization(string login, string password)
         {
             if (Login == login && Password == password)
@@ -108,7 +136,7 @@ namespace GameClasses
                 tempGames[i] = (i == tempGames.Length - 1) ? game : Games[i];
             }
 
-            Games= tempGames;
+            Games = tempGames;
         }
 
         public string GetAccauntData()
@@ -118,6 +146,10 @@ namespace GameClasses
                    $"IsAuthorized: {IsAuthorized} \n" +
                    $"Login: {Login}";
         }
+        //public string Fio
+        //{
+        //    get { return $"{Surname} {Name} {Patronymic ?? ""}"; }
+        //}
 
         public Game[] RemoveGame(string nameGame, Game[] games)
         {

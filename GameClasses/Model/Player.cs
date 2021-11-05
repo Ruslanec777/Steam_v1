@@ -35,13 +35,13 @@ namespace GameClasses
             Balance = balance;
         }
 
-        public void CreateAccount(string login, string password)
-        {
-            Account = new Account(login, password);
-            Login = login;
-            Pasword = password;
-            //return Account;
-        }
+        //public void CreateAccount(string login, string password)
+        //{
+        //    Account = new Account(login, password);
+        //    Login = login;
+        //    Pasword = password;
+        //    //return Account;
+        //}
 
         public void RemoveAccaunt()
         {
