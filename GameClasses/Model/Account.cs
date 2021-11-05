@@ -142,9 +142,15 @@ namespace GameClasses
         public string GetAccauntData()
         {
             return $"ID: {Id}\n" +
+                   $"NicName: {NicName} \n" +
+                   $"Surname: {Surname} \n" +
+                   $"Name: {Name} \n" +
+                   $"Patronymic: {Patronymic} \n" +
+                   $"Age: {Age} \n" +
+                   $"Login: {Login}\n" +
+                   $"Password: {Password} \n" +
                    $"Balance: {Balance}\n" +
-                   $"IsAuthorized: {IsAuthorized} \n" +
-                   $"Login: {Login}";
+                   $"IsAuthorized: {IsAuthorized} \n";
         }
         //public string Fio
         //{

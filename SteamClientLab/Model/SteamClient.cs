@@ -3,6 +3,7 @@ using GameClasses.Enums;
 using SteamClientLab.Enums;
 using SteamClientLab.MenuPages;
 using System;
+using System.Threading;
 
 namespace SteamClientLab.Model
 
@@ -30,44 +31,30 @@ namespace SteamClientLab.Model
 
             do
             {
-                if (steamClient.Autorization().ExecutionStatusCode==ExecutionStatusCode.ExitBeforeCompletion)
+                if (steamClient.Autorization().ExecutionStatusCode == ExecutionStatusCode.ExitBeforeCompletion)
                 {
                     return;
-                } 
+                }
 
-            } while (steamClient.CurrentAccaunt==null);
-
-            steamClient.Autorization();
-
+            } while (steamClient.CurrentAccaunt == null);
         }
 
 
 
         private ReturnedData Autorization()
         {
-
             bool isResponseValid = false;
 
             int selectedMenuItem;
 
-            ReturnedData returnedData = CallbackConsoleMenu("Меню Авторизации", "Выберите пункт", MenuAutorizationText.menuItems);
-
             do
             {
+                ReturnedData returnedData = CallbackConsoleMenu("Меню Авторизации", "Выберите пункт", MenuAutorizationText.menuItems);
 
-                if (returnedData.ExecutionStatusCode == ExecutionStatusCode.ExitBeforeCompletion)
-                {
-                    return returnedData;
-                }
+                isResponseValid = int.TryParse(returnedData.ReturnedString, out selectedMenuItem);
 
-                ReturnedData returned = CallbackConsoleMenu("Меню Авторизации", "Выберите пункт", MenuAutorizationText.menuItems);
-
-                isResponseValid = int.TryParse(returned.ReturnedString, out selectedMenuItem);
-
-
-
-                //isResponseValid = int.TryParse(CallbackConsoleMenu("Меню Авторизации", "Выберите пункт", MenuAutorizationText.menuItems).ReturnedString, out selectedMenuItem)
-                //      && selectedMenuItem >= 0 && selectedMenuItem <= MenuAutorizationText.menuItems.Length;
+                isResponseValid = int.TryParse(returnedData.ReturnedString, out selectedMenuItem)
+                      && selectedMenuItem >= 0 && selectedMenuItem <= MenuAutorizationText.menuItems.Length;
 
             } while (!isResponseValid);
 
@@ -75,9 +62,12 @@ namespace SteamClientLab.Model
             {
                 case 0:
                     return logining();
-                    
+
                 case 1:
                     return AddNewAccaunt(ref accounts);
+
+                case 2:
+                    return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.ExitBeforeCompletion };
 
                 default:
                     return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.EnteredIncorrectValue };
@@ -111,26 +101,34 @@ namespace SteamClientLab.Model
 
             Account TempAccaunt = FindAccountToLigin(login, accounts);
 
-            if (TempAccaunt.Password!=null && TempAccaunt.Password==password)
+            if (TempAccaunt != null && TempAccaunt.Password == password)
             {
                 CurrentAccaunt = TempAccaunt;
-                return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.CorrectCompletion };
-            } 
 
-            return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.ExitBeforeCompletion };
+                Console.WriteLine($"Вы вошли в аакант:");
+                Console.WriteLine($"{CurrentAccaunt.GetAccauntData()}");
+                Thread.Sleep(2000);
+
+                return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.CorrectCompletion };
+            }
+
+            Console.WriteLine($"Логин и/или пароль не верны");          
+            Thread.Sleep(1000);
+
+            return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.EnteredIncorrectValue };
 
         }
 
-        private Account FindAccountToLigin(string login ,Account [] accounts)
+        private Account FindAccountToLigin(string login, Account[] accounts)
         {
             for (int i = 0; i < accounts.Length; i++)
             {
-                if ((accounts[i].Login)==login)
+                if ((accounts[i].Login) == login)
                 {
                     return accounts[i];
                 }
             }
-                return null;
+            return null;
         }
 
         private ReturnedData AddNewAccaunt(ref Account[] accounts)
@@ -191,14 +189,14 @@ namespace SteamClientLab.Model
 
             do
             {
-                isResponseValid = int.TryParse(CallbackConsoleMenu("Регистрация Аккаунта", "Выберите пол", MenuAutorizationText.menuItems).ReturnedString, out selectedMenuItem)
-                      && selectedMenuItem >= 0 && selectedMenuItem <= 1;
+                isResponseValid = int.TryParse(CallbackConsoleMenu("Регистрация Аккаунта", "Выберите пол" ).ReturnedString, out selectedMenuItem)
+                && selectedMenuItem >= 0 && selectedMenuItem <= 1;
 
             } while (!isResponseValid);
 
             sex = (Sex)selectedMenuItem;
 
-            nicName = CallbackConsoleMenu("Регистрация Аккаунта", "Введите Ник для игры").ReturnedString;
+            nicName = CallbackConsoleMenu("Регистрация Аккаунта", "Введите Ник для игры",MenuSexSelect.menuItems).ReturnedString;
 
             do
             {
@@ -216,7 +214,17 @@ namespace SteamClientLab.Model
 
             password = CallbackConsoleMenu("Регистрация Аккаунта", "Введите пароль").ReturnedString;
 
-            return new Account(fio, sex, nicName, age, balance, login, password);
+            Account tempAccaunt = new Account(fio, sex, nicName, age, balance, login, password);
+
+            if (tempAccaunt!=null)
+            {
+                Console.WriteLine("Аккаунт создан");
+                Console.WriteLine($"{tempAccaunt.GetAccauntData()}");
+
+                Thread.Sleep(2000);
+            }
+
+            return tempAccaunt ;
         }
 
     }

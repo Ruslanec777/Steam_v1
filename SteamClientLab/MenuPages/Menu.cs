@@ -20,7 +20,7 @@ namespace SteamClientLab.MenuPages
                        $"{ActionForMenu}";
             }
         }
-        static internal string[]  menuItems= { "Войти в Аккаунт" ,"Регистрация"  };
+        static internal string[]  menuItems= { "Войти в Аккаунт" ,"Регистрация" ,"Выход" };
     }
 
     class MenuLoginForLogining
@@ -90,6 +90,24 @@ namespace SteamClientLab.MenuPages
         }
         static internal string[] menuItems = null;
     }
+
+    class MenuSexSelect
+    {
+        static readonly string titlMenu = "Меню Авторизации";
+
+        static readonly string ActionForMenu = "Выберите пункт меню";
+        static internal string HeaderOfMenu
+        {
+            get
+            {
+                return $"{titlMenu} \n" +
+                       $"\n" +
+                       $"{ActionForMenu}";
+            }
+        }
+        static internal string[] menuItems = { "Мужчина", "Женщина" };
+    }
+
 
 
 }
