@@ -16,7 +16,7 @@ namespace SteamClientLab.Model
 
         private Account[] accounts = Array.Empty<Account>();
 
-        private SteamClient(DelegateMethodConsolMenu externalMethodPrintMenu)
+        public SteamClient(DelegateMethodConsolMenu externalMethodPrintMenu)
         {
             CallbackConsoleMenu = externalMethodPrintMenu;
         }
@@ -25,25 +25,25 @@ namespace SteamClientLab.Model
         /// Метод Запуска SteamClient
         /// </summary>
         /// <param name="externalMethod">ссылка на метод который способен взаимодействует с SteamClient</param>
-        public static void Start(DelegateMethodConsolMenu externalMethod)
+        public void Start()
         {
-            SteamClient steamClient = new SteamClient(externalMethod);
-
-            steamClient.AdminAccountInitializer(ref steamClient.accounts);
+            AdminAccountInitializer(ref accounts);
             
             do
             {
-                if (steamClient.Autorization().ExecutionStatusCode == ExecutionStatusCode.ExitBeforeCompletion)
+                if (Autorization().ExecutionStatusCode == ExecutionStatusCode.ExitBeforeCompletion)
                 {
                     return;
                 }
 
-            } while (steamClient.CurrentAccaunt == null);
+            } while (CurrentAccaunt == null);
 
             do
             {
                 // дописать меню пользователя
-            } while (steamClient.CurrentAccaunt != null);
+               // steamClient.ActionIntoAccount();
+
+            } while (CurrentAccaunt != null);
         }
 
         private ReturnedData Autorization()
@@ -55,8 +55,6 @@ namespace SteamClientLab.Model
             do
             {
                 ReturnedData returnedData = CallbackConsoleMenu("Меню Авторизации", "Выберите пункт", MenuAutorizationText.menuItems);
-
-                isResponseValid = int.TryParse(returnedData.ReturnedString, out selectedMenuItem);
 
                 isResponseValid = int.TryParse(returnedData.ReturnedString, out selectedMenuItem)
                       && selectedMenuItem >= 0 && selectedMenuItem <= MenuAutorizationText.menuItems.Length;
@@ -79,10 +77,60 @@ namespace SteamClientLab.Model
             }
         }
 
-        private ReturnedData ActionIntoAccount()
-        {
-            return CallbackConsoleMenu($"Пользователь {CurrentAccaunt.NicName}", MenuUser.ActionForMenu, MenuUser.menuItems);
-        }
+        //private ReturnedData ActionIntoAccount()
+        //{
+        //    int selectedMenuItem;
+
+        //    bool isResponseValid;
+
+        //    ReturnedData returnedData = CallbackConsoleMenu($"Пользователь {CurrentAccaunt.NicName}", MenuUser.ActionForMenu, MenuUser.menuItems);
+
+        //    isResponseValid = int.TryParse(returnedData.ReturnedString, out selectedMenuItem)
+        //          && selectedMenuItem >= 0 && selectedMenuItem <= MenuUser.menuItems.Length;
+
+        //    //switch (selectedMenuItem)
+        //    //{
+        //    //    case 0:
+        //    //         PlayTheGame();
+        //    //        break;
+
+        //    //    case 1:
+        //    //        ListGameForPurchase();
+        //    //        break;
+
+        //    //    case 2:
+        //    //        BalanceManagement();
+        //    //        break;
+
+        //    //    case 3:
+        //    //        ExitFromAccaunt();
+        //    //        break;
+
+        //    //    case 4:
+        //    //        ExitFromSteam();
+        //    //        break;
+
+        //    //    default:
+        //    //        break;
+        //    //}
+
+        //}
+
+        //private void NewMethod1(Delegate @delegate,string titl ,string action , MenuUserEnum menuUserEnum )
+        //{
+        //    ReturnedData returnedData = CallbackConsoleMenu($"Пользователь {CurrentAccaunt.NicName}", MenuUser.ActionForMenu, MenuUser.menuItems);
+
+        //    do
+        //    {
+        //        ReturnedData returnedData = CallbackConsoleMenu("Меню Авторизации", "Выберите пункт", MenuAutorizationText.menuItems);
+
+        //        isResponseValid = int.TryParse(returnedData.ReturnedString, out selectedMenuItem);
+
+        //        isResponseValid = int.TryParse(returnedData.ReturnedString, out selectedMenuItem)
+        //              && selectedMenuItem >= 0 && selectedMenuItem <= MenuAutorizationText.menuItems.Length;
+
+        //    } while (!isResponseValid);
+        //}
 
         private ReturnedData logining()
         {
@@ -90,21 +138,9 @@ namespace SteamClientLab.Model
             string password;
 
             ReturnedData returnedDataLogin = CallbackConsoleMenu("Вход в Аккаунт", "Введите логин");
-
-            if (returnedDataLogin.ExecutionStatusCode == ExecutionStatusCode.ExitBeforeCompletion)
-            {
-                return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.ExitBeforeCompletion };
-            }
-
             login = returnedDataLogin.ExecutionStatusCode == ExecutionStatusCode.CorrectCompletion ? returnedDataLogin.ReturnedString : string.Empty;
 
             ReturnedData returnedDataPassword = CallbackConsoleMenu("Вход в Аккаунт", "Введите пароль");
-
-            if (returnedDataLogin.ExecutionStatusCode == ExecutionStatusCode.ExitBeforeCompletion)
-            {
-                return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.ExitBeforeCompletion };
-            }
-
             password = returnedDataPassword.ExecutionStatusCode == ExecutionStatusCode.CorrectCompletion ? returnedDataPassword.ReturnedString : string.Empty;
 
             Account TempAccaunt = FindAccountToLigin(login, accounts);

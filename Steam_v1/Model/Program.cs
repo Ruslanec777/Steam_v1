@@ -13,7 +13,8 @@ namespace ClassesProject
     {
         static void Main(string[] args)
         {
-            SteamClient.Start(AdapterForSteamClient);
+            SteamClient st = new SteamClient(AdapterForSteamClient);
+            st.Start();
 
             return;
         }

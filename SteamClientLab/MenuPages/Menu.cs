@@ -130,6 +130,37 @@ namespace SteamClientLab.MenuPages
             "Выйти из Steam" };
     }
 
+    class MenuUserEnum
+    {
+        static readonly string titlMenu = $"Пользователь";
+
+        static internal readonly string ActionForMenu = "Выберите пункт меню";
+        static internal string HeaderOfMenu
+        {
+            get
+            {
+                return $"{titlMenu} \n" +
+                       $"\n" +
+                       $"{ActionForMenu}";
+            }
+        }
+        static internal string[] menuItems = {
+            "Играть в игру",
+            "Список игр доступных для покупки" ,
+            "Управление счётом",
+            "Выйти из аккаунта" ,
+            "Выйти из Steam" };
+
+        enum MyEnumTest
+        {
+            PlayTheGame,
+            ListOfGamesAvailableForPurchase,
+            BalanceManagement,
+            QuitAccaunt,
+            QuitSteam
+        }
+    }
+
 
 
 }
