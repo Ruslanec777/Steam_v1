@@ -28,15 +28,14 @@ namespace SteamClientLab.Model
         public void Start()
         {
             AdminAccountInitializer(ref accounts);
-            
-            do
+
+            while (CurrentAccaunt == null)
             {
                 if (Autorization().ExecutionStatusCode == ExecutionStatusCode.ExitBeforeCompletion)
                 {
                     return;
                 }
-
-            } while (CurrentAccaunt == null);
+            } 
 
             do
             {
@@ -54,7 +53,12 @@ namespace SteamClientLab.Model
 
             do
             {
-                ReturnedData returnedData = CallbackConsoleMenu("Меню Авторизации", "Выберите пункт", MenuAutorizationText.menuItems);
+                ReturnedData returnedData = CallbackConsoleMenu("Меню Авторизации", "Выберите пункт или Esc для выхода", MenuAutorizationText.menuItems);
+
+                if (returnedData.ExecutionStatusCode==ExecutionStatusCode.ExitBeforeCompletion)
+                {
+                    return returnedData;
+                }
 
                 isResponseValid = int.TryParse(returnedData.ReturnedString, out selectedMenuItem)
                       && selectedMenuItem >= 0 && selectedMenuItem <= MenuAutorizationText.menuItems.Length;

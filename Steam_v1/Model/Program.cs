@@ -23,24 +23,49 @@ namespace ClassesProject
         {
             Console.Clear();
             Console.WriteLine(title);
-            Console.WriteLine(action);
+            Console.WriteLine(action );
 
             for (int i = 0; i < menuItems.Length; i++)
             {
                 Console.WriteLine($"{i}. {menuItems[i]}");
             }
 
-            return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.CorrectCompletion, ReturnedString = Console.ReadLine() };
+            string enteredStr=string.Empty;
+
+            while (true)
+            {
+                ConsoleKeyInfo key = Console.ReadKey();
+
+                enteredStr += key.KeyChar;
+
+                if (key.Key == ConsoleKey.Escape)
+                {
+                    return new ReturnedData()
+                    {
+                        ExecutionStatusCode = ExecutionStatusCode.ExitBeforeCompletion
+                    };
+                }
+
+                if (key.Key == ConsoleKey.Enter)
+                
+                {
+                    return new ReturnedData()
+                    {
+                        ExecutionStatusCode = ExecutionStatusCode.CorrectCompletion,
+                        ReturnedString = enteredStr
+                    };
+                }
+            }
         }
 
-        public static ReturnedData AdapterForSteamClient(string title, string action)
-        {
-            Console.Clear();
-            Console.WriteLine(title);
-            Console.WriteLine(action);
+        //public static ReturnedData AdapterForSteamClient(string title, string action)
+        //{
+        //    Console.Clear();
+        //    Console.WriteLine(title);
+        //    Console.WriteLine(action);
 
-            return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.CorrectCompletion, ReturnedString = Console.ReadLine() };
-        }
+        //    return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.CorrectCompletion, ReturnedString = Console.ReadLine() };
+        //}
 
     }
 }
