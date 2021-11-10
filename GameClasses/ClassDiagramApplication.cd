@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GameClasses.Account">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAACACIAAAQAJACAIEgAAAYABIwACAACACARAAAAAAA=</HashCode>
+      <FileName>Model\Account.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameClasses.Game">
+    <Position X="7.75" Y="1.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAQAAAAAAAEAAQAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Game.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameClasses.Human">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAABACAAEAAAAQABAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Human.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameClasses.Player">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAIECAABAAAAAgAAAAAAAAABAEAAAAQAAAAAEA=</HashCode>
+      <FileName>Model\Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Application.Enums.Menu">
+    <Position X="10.25" Y="0.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>DAAAAAAIIBAAgAABAAACAEAAAAAAAAAEIAAAAAACAEA=</HashCode>
+      <FileName>Enums\Menu.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="GameClasses.Enums.Sex">
+    <Position X="7.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Enums\Sex.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

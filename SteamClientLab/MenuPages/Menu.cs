@@ -20,7 +20,7 @@ namespace SteamClientLab.MenuPages
                        $"{ActionForMenu}";
             }
         }
-        static internal string[]  menuItems= { "Войти в Аккаунт" ,"Регистрация" ,"Выход" };
+        static internal string[]  menuItems= { "Войти в Аккаунт" ,"Регистрация"  };
     }
 
     class MenuLoginForLogining

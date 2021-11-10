@@ -11,5 +11,12 @@ namespace SteamClientLab.Model
     {
         public string ReturnedString{ get; set; }
         public ExecutionStatusCode ExecutionStatusCode { get; set; }
+
+        public bool Issuccessfull
+        {
+            get { return ExecutionStatusCode==ExecutionStatusCode.CorrectCompletion; }
+        }
+
+
     }
 }

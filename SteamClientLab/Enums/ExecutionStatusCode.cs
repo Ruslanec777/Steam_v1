@@ -10,7 +10,8 @@ namespace SteamClientLab.Enums
     {
         CorrectCompletion,
         ExitBeforeCompletion,
-        EnteredIncorrectValue
+        EnteredIncorrectValue,
+        RequestToRestartThisMenu
 
     }
 }
