@@ -9,7 +9,7 @@ namespace ClassesProject
         class ClassAdaper
         {
 
-            public static ReturnedData AdapterForSteamClient(string title, string action, params string[] menuItems)
+            public static string AdapterForSteamClient(string title, string action, params string[] menuItems)
             {
                 Console.WriteLine("reset bag console\n"); // Иногда консоль не отображает первый символ
                 Console.Clear();
@@ -31,26 +31,16 @@ namespace ClassesProject
 
                     if (key.Key == ConsoleKey.Escape)
                     {
-                        return new ReturnedData()
-                        {
-                            ExecutionStatusCode = ExecutionStatusCode.ExitBeforeCompletion
-                        };
+                        throw new MenuException("Нажат Esc", MenuExceptions.ReturningBack);
                     }
 
                     if (key.Key == ConsoleKey.Enter)
 
                     {
-                        return new ReturnedData()
-                        {
-                            ExecutionStatusCode = ExecutionStatusCode.CorrectCompletion,
-                            ReturnedString = enteredStr
-                        };
+                        return enteredStr;
                     }
                 }
             }
         }
-
-
-
     }
 }

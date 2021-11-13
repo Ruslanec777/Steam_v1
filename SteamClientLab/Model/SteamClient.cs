@@ -11,7 +11,7 @@ namespace SteamClientLab.Model
 {
     public class SteamClient
     {
-        public delegate ReturnedData DelegateMethodConsolMenu(string titl, string action, params string[] titlAndMenuItems);
+        public delegate string DelegateMethodConsolMenu(string titl, string action, params string[] titlAndMenuItems);
         public static DelegateMethodConsolMenu CallbackConsoleMenu { get; private set; }
         public Account CurrentAccaunt { get; set; } = null;
 
@@ -33,10 +33,21 @@ namespace SteamClientLab.Model
 
             while (CurrentAccaunt == null)
             {
-                if (Autorization().ExecutionStatusCode == ExecutionStatusCode.ExitBeforeCompletion)
+                try
                 {
-                    return;
+                    Autorization();
                 }
+                catch (MenuException exception)
+                {
+                    if (exception.ErrorCode==MenuExceptions.ReturningBack)
+                    {
+                        Console.WriteLine($"Выход из приложения ");
+                        Thread.Sleep(1000);
+
+                        return;
+                    }               
+                }
+                catch (MenuExceptions)
             }
 
             do
@@ -132,9 +143,9 @@ namespace SteamClientLab.Model
         private Account FindAccountToLigin(string login, List<Account> accounts)
         {
             Account account = accounts.FirstOrDefault(i => i.Login == login);
-            if (account==null)
+            if (account == null)
             {
-            return null;
+                return null;
             }
             return account;
         }
@@ -230,7 +241,7 @@ namespace SteamClientLab.Model
 
             do
             {
-                
+
                 isResponseValid = int.TryParse(CallbackConsoleMenu("Регистрация Аккаунта", "Введите возраст").ReturnedString, out age) && age >= 0 && age <= 130;
 
             } while (!isResponseValid);
