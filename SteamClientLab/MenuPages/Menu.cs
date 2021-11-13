@@ -130,6 +130,11 @@ namespace SteamClientLab.MenuPages
             "Выйти из Steam" };
     }
 
+    class MenuTextAnyKey
+    {
+
+    }
+
     class MenuUserEnum
     {
         static readonly string titlMenu = $"Пользователь";

@@ -64,7 +64,6 @@ namespace SteamClientLab.Model
         private void Autorization()
         {
             bool isResponseValid = false;
-
             int selectedMenuItem;
 
             do
@@ -104,7 +103,6 @@ namespace SteamClientLab.Model
             }
             catch (Exception)
             {
-
                 throw new MenuException(MenuExceptions.ReturningBack);
             }
         }
@@ -136,6 +134,8 @@ namespace SteamClientLab.Model
             {
                 CurrentAccaunt = TempAccaunt;
                 CurrentAccaunt.IsAuthorized = true;
+
+                CallbackConsoleMenu("Зарегестрирован пользавотель:", CurrentAccaunt.AccauntData);
 
                 return TempAccaunt;
             }

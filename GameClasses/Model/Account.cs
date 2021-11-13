@@ -60,7 +60,7 @@ namespace GameClasses
         {
             get
             {
-                return $"{Id} {Balance} {IsAuthorized} {Login}";
+                return $"{Id} {Balance} {Login}";
             }
             set { }
         }

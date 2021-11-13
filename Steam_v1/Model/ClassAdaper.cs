@@ -37,7 +37,7 @@ namespace ClassesProject
                     if (key.Key == ConsoleKey.Enter)
 
                     {
-                        return enteredStr;
+                        return enteredStr.Remove(enteredStr.Length-1);
                     }
                 }
             }
