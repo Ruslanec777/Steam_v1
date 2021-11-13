@@ -13,7 +13,7 @@ namespace SteamClientLab.Model
 
         public MenuExceptions ErrorCode { get; set; }
 
-        public MenuException (string menu ,MenuExceptions errorCode) : base(menu)
+        public MenuException ( MenuExceptions errorCode=MenuExceptions.ReturningBack , string menu = null) : base(menu)
         {
             ErrorCode = errorCode;
         }

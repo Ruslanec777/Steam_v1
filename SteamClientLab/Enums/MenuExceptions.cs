@@ -11,8 +11,9 @@ namespace SteamClientLab.Enums
     {
         ReturningBack,
         InvalidInput,
-        InternalError
-        
+        InternalError,
+        ExitRequest
+       
     }
 
 }

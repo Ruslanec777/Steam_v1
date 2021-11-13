@@ -31,34 +31,37 @@ namespace SteamClientLab.Model
         {
             AdminAccountInitializer(ref accounts);
 
-            while (CurrentAccaunt == null)
+            while (true)
             {
-                try
+                while (CurrentAccaunt == null)
                 {
-                    Autorization();
-                }
-                catch (MenuException exception)
-                {
-                    if (exception.ErrorCode==MenuExceptions.ReturningBack)
+                    try
                     {
-                        Console.WriteLine($"Выход из приложения ");
-                        Thread.Sleep(1000);
-
-                        return;
-                    }               
+                        Autorization();
+                    }
+                    catch (MenuException exception)
+                    {
+                        if (exception.ErrorCode == MenuExceptions.ExitRequest)
+                        {
+                            return;
+                        }
+                        else if (exception.ErrorCode == MenuExceptions.ReturningBack)
+                        {
+                            continue;
+                        }
+                    }
                 }
-                catch (MenuExceptions)
+
+                do
+                {
+                    // дописать меню пользователя
+                    // steamClient.ActionIntoAccount();
+
+                } while (CurrentAccaunt != null);
             }
-
-            do
-            {
-                // дописать меню пользователя
-                // steamClient.ActionIntoAccount();
-
-            } while (CurrentAccaunt != null);
         }
 
-        private ReturnedData Autorization()
+        private void Autorization()
         {
             bool isResponseValid = false;
 
@@ -66,28 +69,43 @@ namespace SteamClientLab.Model
 
             do
             {
-                ReturnedData returnedData = CallbackConsoleMenu("Меню Авторизации", "Выберите пункт или Esc для выхода", MenuAutorizationText.menuItems);
-
-                if (returnedData.ExecutionStatusCode == ExecutionStatusCode.ExitBeforeCompletion)
+                try
                 {
-                    return returnedData;
-                }
+                    string responsMenu = CallbackConsoleMenu("Меню Авторизации", "Выберите пункт или Esc для выхода", MenuAutorizationText.menuItems);
 
-                isResponseValid = int.TryParse(returnedData.ReturnedString, out selectedMenuItem)
-                      && selectedMenuItem >= 0 && selectedMenuItem <= MenuAutorizationText.menuItems.Length;
+                    isResponseValid = int.TryParse(responsMenu, out selectedMenuItem)
+                          && selectedMenuItem >= 0 && selectedMenuItem <= MenuAutorizationText.menuItems.Length;
+                }
+                catch (Exception)
+                {
+
+                    throw new MenuException(MenuExceptions.ExitRequest);
+                }
 
             } while (!isResponseValid);
 
-            switch (selectedMenuItem)
+            try
             {
-                case 0:
-                    return CheckingReturnMenuBelow(logining());
+                switch (selectedMenuItem)
+                {
+                    case 0:
+                        logining();
 
-                case 1:
-                    return CheckingReturnMenuBelow(AddNewAccaunt(ref accounts));
+                        return;
 
-                default:
-                    return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.ExitBeforeCompletion };
+                    case 1:
+                        AddNewAccaunt(ref accounts);
+
+                        return;
+
+                    default:
+                        throw new MenuException(MenuExceptions.ReturningBack); // почему надо указывать string , понял параметр по умолчанию должен быть после обычного
+                }
+            }
+            catch (Exception)
+            {
+
+                throw new MenuException(MenuExceptions.ReturningBack);
             }
         }
         /// <summary>
@@ -104,27 +122,13 @@ namespace SteamClientLab.Model
             return returnedDataForChecking;
         }
 
-
-
-
-        private ReturnedData logining()
+        private Account logining()
         {
             string login;
             string password;
 
-            ReturnedData returnedDataLogin = CallbackConsoleMenu("Вход в Аккаунт", "Введите логин");
-            if (returnedDataLogin.ExecutionStatusCode == ExecutionStatusCode.ExitBeforeCompletion)
-            {
-                return returnedDataLogin;
-            }
-            login = returnedDataLogin.ReturnedString;
-
-            ReturnedData returnedDataPassword = CallbackConsoleMenu("Вход в Аккаунт", "Введите пароль");
-            if (returnedDataPassword.ExecutionStatusCode == ExecutionStatusCode.ExitBeforeCompletion)
-            {
-                return returnedDataPassword;
-            }
-            password = returnedDataPassword.ReturnedString;
+            login = CallbackConsoleMenu("Вход в Аккаунт", "Введите логин");
+            password = CallbackConsoleMenu("Вход в Аккаунт", "Введите пароль");
 
             Account TempAccaunt = FindAccountToLigin(login, accounts);
 
@@ -133,11 +137,10 @@ namespace SteamClientLab.Model
                 CurrentAccaunt = TempAccaunt;
                 CurrentAccaunt.IsAuthorized = true;
 
-                return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.CorrectCompletion };
+                return TempAccaunt;
             }
 
-            return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.EnteredIncorrectValue };
-
+            return null;
         }
 
         private Account FindAccountToLigin(string login, List<Account> accounts)
@@ -150,21 +153,19 @@ namespace SteamClientLab.Model
             return account;
         }
 
-        private ReturnedData AddNewAccaunt(ref List<Account> accounts)
+        private Account AddNewAccaunt(ref List<Account> accounts)
         {
 
-            Account tempAccaunt = null;
+            Account tempAccaunt = RegistrationNewAccaunt();
 
-            ReturnedData returnedData = RegistrationNewAccaunt(ref tempAccaunt);
-
-            if (!returnedData.Issuccessfull)
+            if (tempAccaunt!=null)
             {
-                return CheckingReturnMenuBelow(returnedData);
+                accounts.Add(tempAccaunt);
+                return tempAccaunt;
             }
 
-            accounts.Add(CurrentAccaunt); // берем вновь созданный аккаунт из текущено и помещаем в лист , переделать: принимать  аккаунт тут 
+            return null;
 
-            return returnedData;
         }
 
         private ReturnedData AddNewAccaunt(Account account, ref List<Account> accounts)
@@ -180,7 +181,7 @@ namespace SteamClientLab.Model
             return new ReturnedData() { ExecutionStatusCode = ExecutionStatusCode.CorrectCompletion };
         }
 
-        private ReturnedData RegistrationNewAccaunt(ref Account account)
+        private Account RegistrationNewAccaunt()
         {
             string fio = string.Empty;
             Sex sex = Sex.Man;
@@ -194,16 +195,7 @@ namespace SteamClientLab.Model
 
             do
             {
-                ReturnedData tempReturnedData = CallbackConsoleMenu("Регистрация Аккаунта", "ФИО через пробел");
-
-                if (!tempReturnedData.Issuccessfull)
-                {
-                    return CheckingReturnMenuBelow(tempReturnedData);
-                }
-                else if (tempReturnedData.Issuccessfull)
-                {
-                    fio = tempReturnedData.ReturnedString;
-                }
+                fio = CallbackConsoleMenu("Регистрация Аккаунта", "ФИО через пробел");
 
                 isResponseValid = fio.Split(" ").Length >= 2 && fio.Split(" ").Length <= 3;
 
@@ -214,46 +206,31 @@ namespace SteamClientLab.Model
 
             do
             {
-                ReturnedData tempReturnedData = CallbackConsoleMenu("Регистрация Аккаунта", "Выберите пол", MenuSexSelect.menuItems);
-                if (!tempReturnedData.Issuccessfull)
-                {
-                    return CheckingReturnMenuBelow(tempReturnedData);
-                }
+                string responsString = CallbackConsoleMenu("Регистрация Аккаунта", "Выберите пол", MenuSexSelect.menuItems);
 
-                isResponseValid = int.TryParse(tempReturnedData.ReturnedString, out selectedMenuItem)
+                isResponseValid = int.TryParse(responsString, out selectedMenuItem)
                 && selectedMenuItem >= 0 && selectedMenuItem <= 1;
 
             } while (!isResponseValid);
-
             sex = (Sex)selectedMenuItem;
 
-            ReturnedData returnedData = CallbackConsoleMenu("Регистрация Аккаунта", "Введите Ник для игры");
-
-            if (!returnedData.Issuccessfull)
-            {
-                return CheckingReturnMenuBelow(returnedData);
-            }
-            else if (returnedData.Issuccessfull)
-            {
-                nicName = returnedData.ReturnedString;
-            }
-
+            nicName = CallbackConsoleMenu("Регистрация Аккаунта", "Введите Ник для игры");
 
             do
             {
 
-                isResponseValid = int.TryParse(CallbackConsoleMenu("Регистрация Аккаунта", "Введите возраст").ReturnedString, out age) && age >= 0 && age <= 130;
+                isResponseValid = int.TryParse(CallbackConsoleMenu("Регистрация Аккаунта", "Введите возраст"), out age) && age >= 0 && age <= 130;
 
             } while (!isResponseValid);
 
 
-            login = CallbackConsoleMenu("Регистрация Аккаунта", "Введите логин").ReturnedString;
+            login = CallbackConsoleMenu("Регистрация Аккаунта", "Введите логин");
 
-            password = CallbackConsoleMenu("Регистрация Аккаунта", "Введите пароль").ReturnedString;
+            password = CallbackConsoleMenu("Регистрация Аккаунта", "Введите пароль");
 
             CurrentAccaunt = new Account(fio, sex, nicName, age, balance, login, password); // заносим вновь созданный аккаунт в текущий , переделать( несколько действий в методе)
 
-            return new ReturnedData();
+            return CurrentAccaunt;
         }
 
         public ReturnedData AdminAccountInitializer(ref List<Account> accounts)

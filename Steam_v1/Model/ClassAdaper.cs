@@ -31,7 +31,7 @@ namespace ClassesProject
 
                     if (key.Key == ConsoleKey.Escape)
                     {
-                        throw new MenuException("Нажат Esc", MenuExceptions.ReturningBack);
+                        throw new MenuException( MenuExceptions.ReturningBack ," Нажат Esc");
                     }
 
                     if (key.Key == ConsoleKey.Enter)
