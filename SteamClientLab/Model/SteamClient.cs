@@ -13,7 +13,7 @@ namespace SteamClientLab.Model
     {
         public delegate string DelegateMethodConsolMenu(string titl, string action, params string[] titlAndMenuItems);
         public static DelegateMethodConsolMenu CallbackConsoleMenu { get; private set; }
-        public Account CurrentAccaunt { get; set; } = null;
+        public Account CurrentAccaunt { get; set; } 
 
         // private Account[] accounts = Array.Empty<Account>(); 
         List<Account> accounts = new List<Account>();
@@ -93,12 +93,12 @@ namespace SteamClientLab.Model
                         return;
 
                     case 1:
-                        AddNewAccaunt(ref accounts);
+                        AddNewAccaunt();
 
                         return;
 
                     default:
-                        throw new MenuException(MenuExceptions.ReturningBack); // почему надо указывать string , понял параметр по умолчанию должен быть после обычного
+                        throw new MenuException(MenuExceptions.ReturningBack); 
                 }
             }
             catch (Exception)
@@ -128,14 +128,14 @@ namespace SteamClientLab.Model
             login = CallbackConsoleMenu("Вход в Аккаунт", "Введите логин");
             password = CallbackConsoleMenu("Вход в Аккаунт", "Введите пароль");
 
-            Account TempAccaunt = FindAccountToLigin(login, accounts);
+            Account TempAccaunt = FindAccountToLigin(login);
 
             if (TempAccaunt != null && TempAccaunt.Password == password)
             {
                 CurrentAccaunt = TempAccaunt;
                 CurrentAccaunt.IsAuthorized = true;
 
-                CallbackConsoleMenu("Зарегестрирован пользавотель:", CurrentAccaunt.AccauntData);
+                CallbackConsoleMenu("Зарегестрирован пользавотель:", TempAccaunt.GetAccauntData());
 
                 return TempAccaunt;
             }
@@ -143,7 +143,7 @@ namespace SteamClientLab.Model
             return null;
         }
 
-        private Account FindAccountToLigin(string login, List<Account> accounts)
+        private Account FindAccountToLigin(string login)
         {
             Account account = accounts.FirstOrDefault(i => i.Login == login);
             if (account == null)
@@ -153,7 +153,7 @@ namespace SteamClientLab.Model
             return account;
         }
 
-        private Account AddNewAccaunt(ref List<Account> accounts)
+        private Account AddNewAccaunt()
         {
 
             Account tempAccaunt = RegistrationNewAccaunt();

@@ -152,10 +152,6 @@ namespace GameClasses
                    $"Balance: {Balance}\n" +
                    $"IsAuthorized: {IsAuthorized} \n";
         }
-        //public string Fio
-        //{
-        //    get { return $"{Surname} {Name} {Patronymic ?? ""}"; }
-        //}
 
         public Game[] RemoveGame(string nameGame, Game[] games)
         {
