@@ -8,4 +8,10 @@
     <ProjectReference Include="..\GameClasses\Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Enums\" />
+    <Folder Include="MenuPages\" />
+    <Folder Include="Model\" />
+  </ItemGroup>
+
 </Project>

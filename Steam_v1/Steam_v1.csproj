@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GameClasses\Application.csproj" />
-    <ProjectReference Include="..\SteamClientLab\SteamClientLab.csproj" />
   </ItemGroup>
 
 </Project>
