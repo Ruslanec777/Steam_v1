@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GameClasses.Enums
+namespace Application.Enums
 {
     public enum Sex
     {

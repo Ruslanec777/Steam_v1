@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameClasses
+namespace Application.Model
 {
     public class Game
     {
@@ -30,7 +30,7 @@ namespace GameClasses
 
         public bool SaleGame(Account account)
         {
-            if (account!=null && account.Balance>Price)
+            if (account != null && account.Balance > Price)
             {
                 account.Balance -= Price;
                 account.AddGame(this);//

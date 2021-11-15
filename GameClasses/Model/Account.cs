@@ -1,4 +1,4 @@
-﻿using GameClasses.Enums;
+﻿using Application.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,13 +24,13 @@ id, сумма денег(на аккаунте), логин, пароль, ав
 
  */
 
-namespace GameClasses
+namespace Application.Model
 {
     public class Account
     {
-        public string Fio{ get; set; }
+        public string Fio { get; set; }
         public Sex Sex { get; set; }
-        public string NicName{ get; set; }
+        public string NicName { get; set; }
         public string Surname { get; set; }
         public string Name { get; set; }
         public string Patronymic { get; set; }
@@ -133,7 +133,7 @@ namespace GameClasses
 
             for (int i = 0; i < tempGames.Length; i++)
             {
-                tempGames[i] = (i == tempGames.Length - 1) ? game : Games[i];
+                tempGames[i] = i == tempGames.Length - 1 ? game : Games[i];
             }
 
             Games = tempGames;

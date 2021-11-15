@@ -1,11 +1,11 @@
-﻿using GameClasses.Enums;
+﻿using Application.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameClasses
+namespace Application.Model
 {
     public class Human
     {
@@ -23,13 +23,13 @@ namespace GameClasses
 
 
 
-        public Human(string fio ,int age , Sex sex)
+        public Human(string fio, int age, Sex sex)
         {
             string[] tempFio = fio.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
             Surname = tempFio[0];
             Name = tempFio[1];
-            Patronymic = tempFio.Length>2? tempFio[2]: "";
+            Patronymic = tempFio.Length > 2 ? tempFio[2] : "";
 
             Age = age;
             Sex = sex;

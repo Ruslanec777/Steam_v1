@@ -1,6 +1,6 @@
 ﻿using System;
-using SteamClientLab.Model;
-using SteamClientLab.Enums;
+using Application.Enums;
+using Application.Model;
 
 namespace ClassesProject
 {

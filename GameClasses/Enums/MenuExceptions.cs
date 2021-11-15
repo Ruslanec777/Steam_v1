@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SteamClientLab.Enums
+namespace Application.Enums
 {
 
     public enum MenuExceptions

@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SteamClientLab.MenuPages
+namespace Application.Model
 {
     class MenuAutorizationText
     {
         static readonly string titlMenu = "Меню Авторизации";
 
-        static readonly string ActionForMenu ="Выберите пункт меню";
+        static readonly string ActionForMenu = "Выберите пункт меню";
         static internal string HeaderOfMenu
         {
             get
@@ -20,7 +20,7 @@ namespace SteamClientLab.MenuPages
                        $"{ActionForMenu}";
             }
         }
-        static internal string[]  menuItems= { "Войти в Аккаунт" ,"Регистрация"  };
+        static internal string[] menuItems = { "Войти в Аккаунт", "Регистрация" };
     }
 
     class MenuLoginForLogining
@@ -122,7 +122,7 @@ namespace SteamClientLab.MenuPages
                        $"{ActionForMenu}";
             }
         }
-        static internal string[] menuItems = { 
+        static internal string[] menuItems = {
             "Играть в игру",
             "Список игр доступных для покупки" ,
             "Управление счётом",

@@ -1,9 +1,7 @@
 ﻿using Application.Enums;
-using GameClasses;
-using GameClasses.Enums;
 using System.Threading;
 using static System.Console;
-using SteamClientLab.Model;
+using Application.Model;
 
 namespace ClassesProject
 {

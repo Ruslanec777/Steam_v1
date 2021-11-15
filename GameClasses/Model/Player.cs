@@ -1,11 +1,11 @@
-﻿using GameClasses.Enums;
+﻿using Application.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameClasses
+namespace Application.Model
 {
     public class Player : Human
     {
@@ -48,7 +48,7 @@ namespace GameClasses
             Account = null;
         }
 
-        public void AddManeyToAccaunt(Account account ,decimal maney)
+        public void AddManeyToAccaunt(Account account, decimal maney)
         {
             account.AddMoney(maney);
         }
@@ -61,7 +61,7 @@ namespace GameClasses
         public string GetPlayerData()
         {
             return $"Ник {NickName} \n" +
-                $"Аккаунт: {(Account!=null ? Account.Id.ToString() : "Аккаунт отсутствует")} " +
+                $"Аккаунт: {(Account != null ? Account.Id.ToString() : "Аккаунт отсутствует")} " +
                 $"\nБаланс {Balance}";
         }
 
