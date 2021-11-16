@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Application.Model.MenuActions;
 using static Application.Model.SteamClient;
 
 namespace Application.Model
@@ -13,25 +14,7 @@ namespace Application.Model
 
         public static void Autorization()
         {
-            bool isResponseValid = false;
-            int selectedMenuItem;
-
-            do
-            {
-                try
-                {
-                    string responsMenu = CallbackConsoleMenu("Меню Авторизации", "Выберите пункт или Esc для выхода", MenuAutorizationText.menuItems);
-
-                    isResponseValid = int.TryParse(responsMenu, out selectedMenuItem)
-                          && selectedMenuItem >= 0 && selectedMenuItem <= MenuAutorizationText.menuItems.Length;
-                }
-                catch (Exception)
-                {
-
-                    throw new MenuException(MenuExceptions.ExitRequest);
-                }
-
-            } while (!isResponseValid);
+            int selectedMenuItem = PrintMenu("Меню Авторизации", "Выберите пункт или Esc для выхода", MenuAutorizationText.menuItems);
 
             try
             {
@@ -51,13 +34,15 @@ namespace Application.Model
                         throw new MenuException(MenuExceptions.ReturningBack);
                 }
             }
-            catch (Exception)
+            catch (MenuException)
             {
                 throw new MenuException(MenuExceptions.ReturningBack);
             }
         }
 
-        private static Account  logining()
+
+
+        private static Account logining()
         {
             string login;
             string password;

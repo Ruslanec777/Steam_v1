@@ -67,28 +67,6 @@ namespace Application.Model
 
         public Game[] Games { get; set; }
 
-        //public Account(int id)
-        //{
-        //    Id = id;
-        //}
-
-        //public Account(int id, int money)
-        //    : this(id)
-        //{
-        //    Balance = money;
-        //}
-
-        //public Account(string login, string password)
-        //{
-        //    Login = login;
-        //    Password = password;
-        //    Id = AccauntCount;
-        //    AccauntCount++;
-        //}
-
-
-
-
         public void AddMoney(decimal money)
         {
             Balance += money;

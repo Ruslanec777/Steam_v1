@@ -8,7 +8,7 @@ namespace Application.Model
     public class SteamClient
     {
         public delegate string DelegateMethodConsolMenu(string titl, string action, params string[] titlAndMenuItems);
-        public static DelegateMethodConsolMenu CallbackConsoleMenu { get; private set; }
+        public static DelegateMethodConsolMenu CallbackConsoleMenu { get;  set; }
         public static Account CurrentAccaunt { get; set; } = null;
 
         // private Account[] accounts = Array.Empty<Account>(); 
@@ -29,34 +29,31 @@ namespace Application.Model
 
             while (true)
             {
-                while (CurrentAccaunt == null)
+                try
                 {
-                    try
+                    while (CurrentAccaunt == null)
                     {
                         AccauntProvider.Autorization();
                     }
-                    catch (MenuException exception)
+
+                    do
                     {
-                        if (exception.ErrorCode == MenuExceptions.ExitRequest)
-                        {
-                            return;
-                        }
-                        else if (exception.ErrorCode == MenuExceptions.ReturningBack)
-                        {
-                            continue;
-                        }
+                        UsersMenu.PrintMainMenu();
+
+                    } while (CurrentAccaunt != null);
+                }
+                catch (MenuException exception)
+                {
+                    if (exception.ErrorCode == MenuExceptions.ExitRequest)
+                    {
+                        return;
+                    }
+                    else if (exception.ErrorCode == MenuExceptions.ReturningBack)
+                    {
+                        continue;
                     }
                 }
-
-                do
-                {
-                    // дописать меню пользователя
-                    // steamClient.ActionIntoAccount();
-
-                } while (CurrentAccaunt != null);
             }
         }
-
-
     }
 }

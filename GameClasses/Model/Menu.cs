@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Application.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Application.Model
 {
-    class MenuAutorizationText
+   public class MenuAutorizationText
     {
         static readonly string titlMenu = "Меню Авторизации";
 
@@ -135,34 +137,30 @@ namespace Application.Model
 
     }
 
-    class MenuUserEnum
+
+     public static class MenuActions
     {
-        static readonly string titlMenu = $"Пользователь";
-
-        static internal readonly string ActionForMenu = "Выберите пункт меню";
-        static internal string HeaderOfMenu
+        public static int PrintMenu(string titleMenu, string actionText, params string[] menuItems)
         {
-            get
+            bool isResponseValid = false;
+            int selectedMenuItem;
+
+            do
             {
-                return $"{titlMenu} \n" +
-                       $"\n" +
-                       $"{ActionForMenu}";
-            }
-        }
-        static internal string[] menuItems = {
-            "Играть в игру",
-            "Список игр доступных для покупки" ,
-            "Управление счётом",
-            "Выйти из аккаунта" ,
-            "Выйти из Steam" };
+                try
+                {
+                    string responsMenu = SteamClient.CallbackConsoleMenu(titleMenu, actionText, menuItems);
 
-        enum MyEnumTest
-        {
-            PlayTheGame,
-            ListOfGamesAvailableForPurchase,
-            BalanceManagement,
-            QuitAccaunt,
-            QuitSteam
+                    isResponseValid = int.TryParse(responsMenu, out selectedMenuItem)
+                          && selectedMenuItem >= 0 && selectedMenuItem <= MenuAutorizationText.menuItems.Length;
+                }
+                catch (MenuException)
+                {
+                    throw new MenuException(MenuExceptions.ExitRequest);
+                }
+
+            } while (!isResponseValid);
+            return selectedMenuItem;
         }
     }
 

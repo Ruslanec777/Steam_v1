@@ -25,6 +25,7 @@ namespace ClassesProject
 
                 while (true)
                 {
+                    
                     ConsoleKeyInfo key = Console.ReadKey();
 
                     enteredStr += key.KeyChar;
