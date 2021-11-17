@@ -5,16 +5,16 @@ using System.Linq;
 
 namespace Application.Model
 {
-    public class SteamClient
+    public  class SteamClient
     {
-        public delegate string DelegateMethodConsolMenu(string titl, string action, params string[] titlAndMenuItems);
-        public static DelegateMethodConsolMenu CallbackConsoleMenu { get;  set; }
+        public  delegate string DelegateMethodConsolMenu(string titl, string action, params string[] titlAndMenuItems);
+        public static DelegateMethodConsolMenu CallbackConsoleMenu { get; set; }
         public static Account CurrentAccaunt { get; set; } = null;
 
         // private Account[] accounts = Array.Empty<Account>(); 
         public static List<Account> accounts = new List<Account>();
 
-        public SteamClient(DelegateMethodConsolMenu externalMethodPrintMenu)
+        public  SteamClient(DelegateMethodConsolMenu externalMethodPrintMenu)
         {
             CallbackConsoleMenu = externalMethodPrintMenu;
         }
@@ -23,7 +23,7 @@ namespace Application.Model
         /// Метод Запуска SteamClient
         /// </summary>
         /// <param name="externalMethod">ссылка на метод который способен взаимодействует с SteamClient</param>
-        public void Start()
+        public  void Start()
         {
             AccauntProvider.AdminAccountInitializer();
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Model
 {
-   public class MenuAutorizationText
+    public class MenuAutorizationText
     {
         static readonly string titlMenu = "Меню Авторизации";
 
@@ -126,19 +126,76 @@ namespace Application.Model
         }
         static internal string[] menuItems = {
             "Играть в игру",
-            "Список игр доступных для покупки" ,
+            "Купить игру" ,
             "Управление счётом",
             "Выйти из аккаунта" ,
             "Выйти из Steam" };
     }
 
-    class MenuTextAnyKey
+    class MenuFinanc
     {
+        static readonly string titlMenu = $"Пользователь";
 
+        static internal readonly string ActionForMenu = "Выберите пункт меню";
+        static internal string HeaderOfMenu
+        {
+            get
+            {
+                return $"{titlMenu} \n" +
+                       $"\n" +
+                       $"{ActionForMenu}";
+            }
+        }
+        static internal string[] menuItems = {
+        "Пополнить счет",
+        "Вывести деньги со счета"};
+    }
+
+    static class GameStoreMenu
+    {
+        static readonly string titlMenu = $"Список игр доступных для покупки";
+
+        static internal readonly string ActionForMenu = "Посмотреть иформацию об игре";
+        static internal string HeaderOfMenu
+        {
+            get
+            {
+                return $"{titlMenu} \n" +
+                       $"\n" +
+                       $"{ActionForMenu}";
+            }
+        }
+        //public static string[] menuItems = (string[])Games.GamesList.Select(i => i.Name);// не работает ?
+
+        //public static List<string> menuItems = Games.GamesNames;
+
+        public static string[] menuItems = GameShop.GamesNames;
+    }
+
+    static class AddBalanceMenu
+    {
+        static readonly string titlMenu = $"Список игр доступных для покупки";
+
+        static internal readonly string ActionForMenu = "Посмотреть иформацию об игре";
+        static internal string HeaderOfMenu
+        {
+            get
+            {
+                return $"{titlMenu} \n" +
+                       $"\n" +
+                       $"{ActionForMenu}";
+            }
+        }
+        //public static string[] menuItems = (string[])Games.GamesList.Select(i => i.Name);// не работает ?
+
+        //public static List<string> menuItems = Games.GamesNames;
+
+        public static string[] menuItems = GameShop.GamesNames;
     }
 
 
-     public static class MenuActions
+
+    public static class MenuActions
     {
         public static int PrintMenu(string titleMenu, string actionText, params string[] menuItems)
         {
@@ -162,6 +219,8 @@ namespace Application.Model
             } while (!isResponseValid);
             return selectedMenuItem;
         }
+
+
     }
 
 

@@ -25,7 +25,7 @@ namespace Application.Model
         public Game(string name, int price)
                    : this(name)
         {
-            Name = name;
+            Price = price;
         }
 
         public bool SaleGame(Account account)
@@ -33,11 +33,16 @@ namespace Application.Model
             if (account != null && account.Balance > Price)
             {
                 account.Balance -= Price;
-                account.AddGame(this);//
+               // account.AddGame(this);//
                 return true;
             }
 
             return false;
+        }
+
+        public void PlayTheGame()
+        {
+            SteamClient.CallbackConsoleMenu("Основное меню",$"Ползователь {SteamClient.CurrentAccaunt.Name} играет в игру {Name}");
         }
 
     }

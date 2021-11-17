@@ -65,7 +65,21 @@ namespace Application.Model
             set { }
         }
 
-        public Game[] Games { get; set; }
+        public Game[] Games { get; set; } = Array.Empty<Game>();
+
+        public  string[] GamesNames
+        {
+            get
+            {
+                string[] tempSting = new string[Games.Length];
+
+                for (int i = 0; i < Games.Length; i++)
+                {
+                    tempSting[i] = Games[i].Name;
+                }
+                return tempSting;
+            }
+        }
 
         public void AddMoney(decimal money)
         {

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using  Application.Model;
+using Application.Model;
 using static Application.Model.SteamClient;
 using static Application.Model.MenuActions;
-
+using Application.Enums;
+using System.Threading;
 
 namespace Application.Model
 {
@@ -14,15 +15,36 @@ namespace Application.Model
     {
         public static void PrintMainMenu()
         {
-            int selectedMenuItem = PrintMenu($"Меню авторизованного пользователя +{CurrentAccaunt.NicName}", "Выберите пункт или Esc для выхода", MenuUser.menuItems) ; //почему не могу сделать статический using ?
-
-            switch (selectedMenuItem)
+            int selectedMenuItem = PrintMenu($"Меню авторизованного пользователя +{CurrentAccaunt.NicName}", "Выберите пункт или Esc для выхода", MenuUser.menuItems);
+            try
             {
-                case 0:
+                switch (selectedMenuItem)
+                {
+                    case 0:
+                        GameShop.BuyingGame(PrintMenu("Список купленных игр", "Выберете игру", CurrentAccaunt.GamesNames)).PlayTheGame();
 
+                        break;
 
-                default:
-                    break;
+                    case 1:
+                        Game tempGame = GameShop.BuyingGame(PrintMenu("Список игр доступных для покупки", "Выберете игру для покупки", GameStoreMenu.menuItems));
+                        if (null != tempGame)
+                        {
+                            PrintMenu($"Вы купили игру {tempGame.Name}", "Нажмите esc для продолжения");
+                        }
+
+                        break;
+
+                    case 2:
+                        FinanceActions.PrintFinanceActMenu();
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            catch (MenuException)
+            {
+                throw new MenuException(MenuExceptions.ReturningBack);
             }
 
         }
