@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Application.Model.MenuActions;
+using static Application.Model.MethodsPrintMenu;
 using static Application.Model.SteamClient;
 
 namespace Application.Model

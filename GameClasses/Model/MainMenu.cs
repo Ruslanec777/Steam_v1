@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Application.Model;
 using static Application.Model.SteamClient;
-using static Application.Model.MenuActions;
+using static Application.Model.MethodsPrintMenu;
 using Application.Enums;
 using System.Threading;
+using Application.Model.Actions;
 
 namespace Application.Model
 {
@@ -21,7 +21,7 @@ namespace Application.Model
                 switch (selectedMenuItem)
                 {
                     case 0:
-                        GameShop.BuyingGame(PrintMenu("Список купленных игр", "Выберете игру", CurrentAccaunt.GamesNames)).PlayTheGame();
+                        CurrentAccaunt.Games[PrintMenu("Список купленных игр", "Выберете игру", CurrentAccaunt.GamesNames)].PlayTheGame();
 
                         break;
 
@@ -35,17 +35,35 @@ namespace Application.Model
                         break;
 
                     case 2:
-                        FinanceActions.PrintFinanceActMenu();
+                        FinanceActions.OutPutFinanceActMenu();
+
+                        break;
+
+                    case 3:
+                        SteamClient.CurrentAccaunt=null;
+
+                        break;
+
+                    case 4:
+                        return ;
+
                         break;
 
                     default:
                         break;
                 }
             }
-            catch (MenuException)
+            catch (MenuException exception)
             {
+                if (exception.ErrorCode==MenuExceptions.ExitRequest)
+                {
+                    throw;
+                }
                 throw new MenuException(MenuExceptions.ReturningBack);
             }
+
+
+
 
         }
     }

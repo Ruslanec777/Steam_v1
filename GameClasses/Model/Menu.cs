@@ -1,5 +1,4 @@
-﻿using Application.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -128,8 +127,7 @@ namespace Application.Model
             "Играть в игру",
             "Купить игру" ,
             "Управление счётом",
-            "Выйти из аккаунта" ,
-            "Выйти из Steam" };
+            "Выйти из аккаунта" };
     }
 
     class MenuFinanc
@@ -150,6 +148,8 @@ namespace Application.Model
         "Пополнить счет",
         "Вывести деньги со счета"};
     }
+
+
 
     static class GameStoreMenu
     {
@@ -191,36 +191,6 @@ namespace Application.Model
         //public static List<string> menuItems = Games.GamesNames;
 
         public static string[] menuItems = GameShop.GamesNames;
-    }
-
-
-
-    public static class MenuActions
-    {
-        public static int PrintMenu(string titleMenu, string actionText, params string[] menuItems)
-        {
-            bool isResponseValid = false;
-            int selectedMenuItem;
-
-            do
-            {
-                try
-                {
-                    string responsMenu = SteamClient.CallbackConsoleMenu(titleMenu, actionText, menuItems);
-
-                    isResponseValid = int.TryParse(responsMenu, out selectedMenuItem)
-                          && selectedMenuItem >= 0 && selectedMenuItem <= MenuAutorizationText.menuItems.Length;
-                }
-                catch (MenuException)
-                {
-                    throw new MenuException(MenuExceptions.ExitRequest);
-                }
-
-            } while (!isResponseValid);
-            return selectedMenuItem;
-        }
-
-
     }
 
 
